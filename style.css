@@ -1,0 +1,72 @@
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+
+.square {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin: 20px;
+    cursor: pointer;
+  }
+  
+  #green {
+    background-color: green;
+  }
+  
+  #red {
+    background-color: red;
+  }
+  
+  #orange {
+    background-color: orange;
+  }
+  
+  #blue {
+    background-color: blue;
+  }
+  
+  #game {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  #playBtn {
+    font-size: 24px;
+    padding: 10px;
+    margin-top: 20px;
+    cursor: pointer;
+  }
+
+  #game {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  #colors {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  #playBtn {
+    background-color: #1e1f1d; /* Green */
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 20px;
+    cursor: pointer;
+    border-radius: 10px;
+  }
+  #message-box {
+    margin-top: 10px;
+  }
+  
