@@ -2,6 +2,7 @@ export class Display {
   constructor() {
     this.playBtn = document.getElementById("playBtn");
     this.messageBox = document.getElementById("message-box");
+    
   }
 
   init(game) {
@@ -27,7 +28,7 @@ export class Display {
       const square = document.getElementById(color);
       const originalColor = square.style.backgroundColor;
 
-      square.style.backgroundColor = "dark" + color;
+      square.style.backgroundColor = "white";
       setTimeout(() => {
         square.style.backgroundColor = originalColor;
         i++;
@@ -43,12 +44,12 @@ export class Display {
     const brightColor = "light" + color;
     square.style.backgroundColor = brightColor;
   }
-  
+
   clearHighlight(color) {
     const square = document.getElementById(color);
     square.style.backgroundColor = color;
   }
-  
+
   showMessage(message) {
     this.messageBox.textContent = message;
   }

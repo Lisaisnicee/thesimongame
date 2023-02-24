@@ -25,13 +25,13 @@ class Game {
       });
     }, 1500);
   }
-  
+
   waitForPlayer() {
     //On compare sa séquence à celle de l'IA
     if (this.playerSequence.length === this.sequence.length) {
       //every pour comparer le contenu des deux sequences
       if (this.playerSequence.every((val, i) => val === this.sequence[i])) {
-       //incrementation du round et remise à zéro de la sequence du joueur
+        //incrementation du round et remise à zéro de la sequence du joueur
         this.round++;
         this.playerSequence = [];
         //nombre de round max à 5
@@ -49,12 +49,12 @@ class Game {
         }
       } else {
 
-        this.display.showMessage(`Raté! Tu as perdu au niveau ${this.round}.`);
+        this.display.showMessage(`Oops! Tu as perdu au niveau ${this.round}.`);
       }
-    } 
-    
+    }
+
     else {
-     
+
       const squares = document.querySelectorAll('.square');
       squares.forEach((square) => {
         square.addEventListener('click', () => {
@@ -68,17 +68,17 @@ class Game {
           }, 500);
           this.waitForPlayer();
 
-          
+
         });
       });
     }
   }
-  
-//méthode qui permet à l'IA d'ajouter une couleur aléatoire à sa séquence
+
+  //méthode qui permet à l'IA d'ajouter une couleur aléatoire à sa séquence
   addColor() {
     const nextColor =
       this.colors[Math.floor(Math.random() * this.colors.length)];
- 
+
     this.sequence.push(nextColor);
     console.log("ia adding a color: " + this.sequence);
   }
