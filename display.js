@@ -1,5 +1,12 @@
+const audioGreen = new Audio('https://s3.amazonaws.com/freecodecamp/simonSound1.mp3');
+const audioRed = new Audio('https://s3.amazonaws.com/freecodecamp/simonSound2.mp3');
+const audioOrange = new Audio('https://s3.amazonaws.com/freecodecamp/simonSound3.mp3');
+const audioBlue = new Audio('https://s3.amazonaws.com/freecodecamp/simonSound4.mp3');
+
+
 export class Display {
   constructor(game) {
+
     this.colors = ["red", "green", "blue", "orange"];
     this.playBtn = document.getElementById("playBtn");
     this.messageBox = document.getElementById("message-box");
@@ -11,26 +18,36 @@ export class Display {
   init() {
     this.playBtn.addEventListener("click", () => {
       this.playSequence();
+   
     });
     this.squares.forEach((square, index) => {
       square.addEventListener("click", () => {
         const selectedColor = index;
-        console.log("==> selectedColor", selectedColor);
-        console.log("==>", this.game.sequence);
+        this.playSound(index)
         this.game.playerSequence.push(selectedColor);
         this.highlightColor(selectedColor);
+        if (!this.game.isEveryUserSequenceElementsCorrect()) {
+          this.showMessage(`Raté! Tu as perdu au niveau ${this.game.round}.\n Appuies sur Play pour jouer à nouveau`);
+          this.game.reset();
+          setTimeout(() => {
+            this.showMessage("");
+          }, 2500);
+          return false;
+        }
         this.waitForPlayer();
       });
     });
   }
+
+
 
   playSequence() {
     this.game.addColor();
     let sequenceIndex = 0;
     const id = setInterval(() => {
       const colorNumber = this.game.sequence[sequenceIndex];
-      console.log("colorNumber  : ", colorNumber, this.game.sequence);
-      this.squares[colorNumber].style.opacity = 0.5;
+      this.squares[colorNumber].style.opacity = 0.1;
+      this.playSound(colorNumber)
       setTimeout(() => {
         this.squares[colorNumber].style.opacity = 1;
       }, 800);
@@ -54,42 +71,71 @@ export class Display {
     square.style.opacity = 1;
   }
 
+  updateRoundNumber() {
+    const roundNumber = document.getElementById("round");
+    roundNumber.textContent = ` ${this.game.round}`;
+  }
+
   showMessage(message) {
     this.messageBox.textContent = message;
   }
 
-  waitForPlayer() {
-    //On compare sa séquence à celle de l'IA
-    console.log(
-      "wait for player",
-      this.game.playerSequence,
-      this.game.sequence
-    );
-    console.log("isEvery...", this.game.isEveryUserSequenceElementsCorrect());
-    if (this.game.playerSequence.length === this.game.sequence.length) {
-      if (this.game.isEveryUserSequenceElementsCorrect()) {
-        //incrementation du round et remise à zéro de la sequence du joueur
-        this.game.round++;
-        this.game.playerSequence = [];
-        //nombre de round max à 5
-        if (this.game.round < 5) {
-          this.showMessage(`Bravo ! Niveau ${this.game.round} réussi !`);
-          setTimeout(() => {
-            this.playSequence()
-            //la boucle se repéte tant que le joueur n'a pas entré une mauvaise couleur
-            // this.game.addColor();
-            // this.flashColors(this.game.sequence, () => {
-            //   this.waitForPlayer();
-            // });
-          }, 1500);
-        } else {
-          this.showMessage(`C'est gagné!`);
-        }
-      } else {
-        this.showMessage(`Raté! Tu as perdu au niveau ${this.game.round}.`);
-      }
-    } else {
+
+
+  playSound(color) {
+    switch (color) {
+      case 0:
+        audioGreen.currentTime = 0;
+        audioGreen.play();
+        break;
+      case 1:
+        audioRed.currentTime = 0;
+        audioRed.play();
+        break;
+      case 2:
+        audioOrange.currentTime = 0;
+        audioOrange.play();
+        break;
+      case 3:
+        audioBlue.currentTime = 0;
+        audioBlue.play();
+        break;
+     
     }
   }
+
+  waitForPlayer() {
+    if (this.game.playerSequence.length === this.game.sequence.length) {
+      if (this.game.isEveryUserSequenceElementsCorrect()) {
+        this.game.round++;
+        this.game.playerSequence = [];
+  
+
+        if (this.game.round < 45) {
+          this.showMessage(`Bravo ! Niveau ${this.game.round} réussi !`);
+         
+          this.updateRoundNumber(this.game.round)
+          setTimeout(() => {
+            this.playSequence()
+          }, 1500);
+        } else {
+          this.showMessage(`C'est gagné!\n Appuies sur Play si tu veux rejouer`);
+          this.game.reset()
+          setTimeout(() => {
+            this.messageBox.textContent = '';
+          }, 2000); 
+          
+        }
+      } else {
+        this.showMessage(`Raté! Tu as perdu au niveau ${this.game.round}.\n Appuies sur Play pour jouer à nouveau`);
+       
+        this.game.reset();
+        setTimeout(() => {
+          this.messageBox.textContent = '';
+        }, 2000); 
+      }
+    }
+  }
+  
 }
 

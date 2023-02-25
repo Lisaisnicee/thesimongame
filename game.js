@@ -6,10 +6,6 @@ class Game {
     this.colorsNumber=4
   }
 
-  // init(display) {
-  //   this.display = display;
-  //   this.display.init(this);
-  // }
 
   reset(){
     this.round = 0;
@@ -21,7 +17,7 @@ class Game {
   addColor() {
     const nextColorNumber =Math.floor(Math.random() * this.colorsNumber);
     this.sequence.push(nextColorNumber);
-    console.log("ia adding a color: " + this.sequence);
+   
   }
 
   checkTap(color) {
@@ -29,9 +25,15 @@ class Game {
     this.waitForPlayer();
   }
 
-  isEveryUserSequenceElementsCorrect(){
-    // const lastIndex = this.playerSequence.length-1
-    // return this.playerSequence[lastIndex]===this.sequence[lastIndex] ? true : false
-    return this.playerSequence.every((val, i) => val === this.sequence[i])
-  }
+  isEveryUserSequenceElementsCorrect() {
+    for (let i = 0; i < this.playerSequence.length; i++) {
+      if (this.playerSequence[i] !== this.sequence[i]) {
+    
+        return false;
+        
+      }
+    }
+    return true;
+}
+
 }
